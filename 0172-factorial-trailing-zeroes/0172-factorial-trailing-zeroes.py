@@ -15,7 +15,15 @@ class Solution:
         return (two, five, ten)
     
     def trailingZeroes(self, n: int) -> int:
-        two = five = ten = 0
-        for num in range(2, n+1):
-            two, five, ten = self.getZeros(num, two, five, ten)
-        return ten + min(two, five)
+        # two = five = ten = 0
+        # for num in range(2, n+1):
+        #     two, five, ten = self.getZeros(num, two, five, ten)
+        # return ten + min(two, five)
+        
+        result = 0
+        
+        while n:
+            n  = n // 5
+            result += n
+        
+        return result
