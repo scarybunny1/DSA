@@ -24,4 +24,4 @@ class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         d = self.getAnagramWordDictionary2(strs)
         
-        return [l for l in d.values()]
+        return d.values()
