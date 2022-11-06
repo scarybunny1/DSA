@@ -7,22 +7,43 @@ class Solution:
     def shortestPath(self, grid: List[List[int]], source: List[int], destination: List[int]) -> int:
         # code here
         n, m = len(grid), len(grid[0])
-        path = 0
-        visited = set([(source[0], source[1])])
+        # path = 0
+        # visited = set([(source[0], source[1])])
+        # q = collections.deque([(source[0], source[1])])
+        # while q:
+        #     for _ in range(len(q)):
+        #         row, col = q.popleft()
+        #         if [row, col] == destination:
+        #             return path
+                
+        #         for dx, dy in [[0,1],[1,0],[-1,0],[0,-1]]:
+        #             r, c = row+dx, col+dy
+        #             if (0 <= r < n and 0 <= c < m and (r, c) not in visited and grid[r][c]):
+        #                 visited.add((r, c))
+        #                 q.append((r, c))
+        #     path += 1
+        # return -1
+        
         q = collections.deque([(source[0], source[1])])
+        distance = [[float('inf')] * m for _ in range(n)]
+        distance[source[0]][source[1]] = 0
+        
         while q:
             for _ in range(len(q)):
                 row, col = q.popleft()
                 if [row, col] == destination:
-                    return path
-                
+                    return distance[row][col]
                 for dx, dy in [[0,1],[1,0],[-1,0],[0,-1]]:
                     r, c = row+dx, col+dy
-                    if (0 <= r < n and 0 <= c < m and (r, c) not in visited and grid[r][c]):
-                        visited.add((r, c))
+                    if 0 <= r < n and 0 <= c < m and grid[r][c] and 1 + distance[row][col] < distance[r][c]:
+                        distance[r][c] = 1 + distance[row][col]
                         q.append((r, c))
-            path += 1
         return -1
+                
+                
+                
+                
+                
 #{ 
  # Driver Code Starts
 #Initial Template for Python 3
