@@ -1,11 +1,15 @@
 class Solution:
     def maximum69Number (self, num: int) -> int:
-        num_string = str(num)
-        n = len(num_string)
-        
-        for i in range(n):
-            if num_string[i] == '6':
-                power = int(math.pow(10, n-i-1))
-                num += 3*power
+        arr = []
+        temp = num
+        while temp:
+            arr.append(temp%10)
+            temp //= 10
+        for i in range(len(arr)-1, -1, -1):
+            if arr[i] == 6:
+                arr[i] = 9
                 break
-        return num
+        new_num = 0
+        for i in range(len(arr)-1, -1, -1):
+            new_num = new_num * 10 + arr[i]
+        return new_num
