@@ -29,9 +29,9 @@ class Solution:
         # mst_sum = 0
         
         # heap = [(0, 0, -1)]
-        
+        ##O(E)
         # while heap:
-        #     weight, node, parent = heapq.heappop(heap)
+        #     weight, node, parent = heapq.heappop(heap) ##O(log(E))
         #     if node in visited:
         #         continue
         #     visited.add(node)
@@ -39,7 +39,7 @@ class Solution:
         #     if parent != -1:
         #         mst.append((node, parent))
                 
-        #     for neighbor, edge_weight in adj[node]:
+        #     for neighbor, edge_weight in adj[node]: 
         #         heapq.heappush(heap, (edge_weight, neighbor, node))
 
         # return mst_sum
