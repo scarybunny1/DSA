@@ -57,8 +57,17 @@ class Solution:
         mst = []
         for edge in edges:
             edge_weight, node, neighbor = edge[0], edge[1], edge[2]
-            if self.find(node, root) != self.find(neighbor, root):
-                self.union(node, neighbor, root, rank)
+            rootX = self.find(node, root)
+            rootY = self.find(neighbor, root)
+            
+            if rootX != rootY:
+                if rank[rootX] > rank[rootY]:
+                    root[rootY] = rootX
+                elif rank[rootY] > rank[rootX]:
+                    root[rootX] = rootY
+                else:
+                    root[rootY] = rootX
+                    rank[rootX] += 1
                 mst.append(edge)
                 mst_sum += edge_weight
         
