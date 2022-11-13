@@ -16,35 +16,52 @@ class Solution:
         return i - 1
     
     def reverseWords(self, s: str) -> str:
-        return " ".join(reversed(s.strip().split()))
+        #One Liner
+        # return " ".join(reversed(s.strip().split()))
         
         
         #In place algorithm
+        arr = list(s)
+        n = len(arr)
         
-#         arr = list(s)
-#         n = len(arr)
-#         self.reverse(arr, 0, len(arr)-1)
-#         left = right = 0
-#         while left < n and right < n:
-            
-#             left = self.getNextCharIndex(left, arr)
-#             right = self.getNextEmptyIndex(left, arr)
-            
-#             self.reverse(arr, left, right)
-            
-#             left = right + 2
+        #Remove leading and trailing spaces
+        i = 0
+        while i < n and arr[i] == ' ':
+            i += 1
+        j = n-1
+        while j > 0 and arr[j] == ' ':
+            j -= 1
+        arr = arr[i:j+1]
+        n = len(arr)
         
-#         left = right = 0
-#         while right < n:
-#             while right < n and arr[right] == ' ':
-#                 right += 1
-#             if right == n:
-#                 break
-#             arr[left] = arr[right]
-#             right += 1
-#             left += 1
+        self.reverse(arr, 0, len(arr)-1)
+        left = right = 0
+        while left < n and right < n:
+            
+            left = self.getNextCharIndex(left, arr)
+            right = self.getNextEmptyIndex(left, arr)
+            
+            self.reverse(arr, left, right)
+            
+            left = right + 1
         
-#         return "".join(arr[:left])
+        left = right = 0
+        while right < n:
+            if right < n and arr[right] == ' ':
+                arr[left] = arr[right]
+                right += 1
+                left += 1
+            while right < n and arr[right] == ' ':
+                right += 1
+            if right == n:
+                break
+            arr[left] = arr[right]
+            right += 1
+            left += 1
+            
+        
+        
+        return "".join(arr[:left])
         
         
         # the sky is blue
