@@ -20,5 +20,14 @@ class Solution:
         return memo[n]
     
     def numSquares(self, n: int) -> int:
-        memo = [-1] * (n+1)
-        return self.count(n, memo)
+        # memo = [-1] * (n+1)
+        # return self.count(n, memo)
+    
+        dp = [inf] * (n+1)
+        dp[0] = 0
+        for j in range(1, n+1):
+            i = 1
+            while i*i <= j:
+                dp[j] = min(dp[j], 1 + dp[j-(i*i)])
+                i += 1
+        return dp[n]
