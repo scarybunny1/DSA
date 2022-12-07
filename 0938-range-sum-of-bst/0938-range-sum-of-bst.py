@@ -11,11 +11,15 @@ class Solution:
         
         ans = 0
         
-        ans += self.rangeSum(node.left, low, high)
         if low <= node.val <= high:
             ans += node.val
-        ans += self.rangeSum(node.right, low, high)
+            
+        if node.val >= low:
+            ans += self.rangeSum(node.left, low, high)
         
+        if node.val <= high:
+            ans += self.rangeSum(node.right, low, high)
+            
         return ans
         
         
