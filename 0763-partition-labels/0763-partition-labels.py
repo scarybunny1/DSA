@@ -14,7 +14,7 @@ class Solution:
 #         {a:[0,8], b:[1,5], c:[4,7], d:[9,9], e:[10,12], f:[11,11], g:[13,13], h:[14,17], i:[15,20], j:[16,21], k:[18,18], l:[19,19]}
         
         stack = []
-        for interval in sorted(d.values()):
+        for interval in d.values():
             if stack and stack[-1][1] > interval[0]:
                 i = stack.pop()
                 new_interval = [i[0], max(i[1], interval[1])]
