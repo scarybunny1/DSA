@@ -1,10 +1,11 @@
 class Solution:
     def minStoneSum(self, piles: List[int], k: int) -> int:
-        # 1:02:30
-        pq = []
+        # Start time: 1:02:30
+        # End time:   1:08:15
+        # Time to solve question on first attempt: 5 mins 45 seconds.
+        pq = [-pile for pile in piles]
         
-        for pile in piles:
-            heapq.heappush(pq, -pile)
+        heapq.heapify(pq)
             
         while k > 0:
             highest = -heapq.heappop(pq)
