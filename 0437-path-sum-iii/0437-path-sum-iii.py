@@ -5,33 +5,29 @@
 #         self.left = left
 #         self.right = right
 class Solution:
-    def count(self, node, curr_sum, target, d):
+    def paths(self, node, total, target, d):
         if not node:
             return 0
+        
+        ans = 0
+        
+        total += node.val
+        #Starting from root
+        if total == target:
+            ans += 1
+        
+        #Starting from intermediate node
+        if total - target in d:
+            ans += d[total-target]
             
-        curr_sum += node.val
-        cnt = 0
+        d[total] = d.get(total, 0) + 1
+        ans += self.paths(node.left, total, target, d)
+        ans += self.paths(node.right, total, target, d)
+        d[total] = d.get(total, 0) - 1
         
-        #Path from root to current node
-        if curr_sum == target:
-            cnt += 1
+        return ans
         
-        #Some intermediate path
-        if curr_sum - target in d:
-            cnt += d[curr_sum - target]
-        
-        #Storing prefix formed till now
-        d[curr_sum] = d.get(curr_sum, 0) + 1
-        
-        #Continuing to the child nodes
-        cnt += self.count(node.left, curr_sum, target, d)
-        cnt += self.count(node.right, curr_sum, target, d)
-        
-        d[curr_sum] = d.get(curr_sum, 0) - 1
-        
-        return cnt
-        
-    
     def pathSum(self, root: Optional[TreeNode], targetSum: int) -> int:
         d = {}
-        return self.count(root, 0, targetSum, d)
+        
+        return self.paths(root, 0, targetSum, d)
