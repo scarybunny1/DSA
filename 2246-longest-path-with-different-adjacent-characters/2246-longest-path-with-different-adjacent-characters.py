@@ -8,14 +8,16 @@ class Solution:
         children = defaultdict(list)
         for i in range(1, n):
             children[parent[i]].append(i)
-        self.longestPath = 1
-        return max(self.getLongestChain(0, s, children), self.longestPath)
+        
+        return max(self.getLongestChain(0, s, children))
         
     def getLongestChain(self, node, s, children):
         longest_chain = 1    #Single Node
+        longest_path = 1
         pq = []
         for child in children[node]:
-            child_chain = self.getLongestChain(child, s, children)
+            child_chain, child_path = self.getLongestChain(child, s, children)
+            longest_path = max(longest_path, child_path)
             if s[child] != s[node]:
                 heapq.heappush(pq, child_chain)
                 if len(pq) > 2:
@@ -23,8 +25,8 @@ class Solution:
         
         if len(pq) == 2:
             longest_chain = max(pq[0], pq[1]) + 1
-            self.longestPath = max(self.longestPath, pq[0] + pq[1] + 1)
+            longest_path = max(longest_path, pq[0] + pq[1] + 1)
         elif len(pq) == 1:
             longest_chain = pq[0] + 1
-            self.longestPath = max(self.longestPath, pq[0] + 1)
-        return longest_chain
+            longest_path = max(longest_path, pq[0] + 1)
+        return longest_chain, longest_path
