@@ -1,27 +1,27 @@
 class Solution:
-    def insert_pos(self, intervals, newInterval):
-        left, right = 0, len(intervals)
+    def insertPos(self, interval, intervals):
+        left, right = 0, len(intervals)-1
         ans = -1
-        while left < right:
+        while left <= right:
             mid = (left + right) // 2
-            if newInterval[0] > intervals[mid][0]:
-                left = mid + 1
+            
+            if interval[0] < intervals[mid][0]:
+                ans = mid
+                right = mid - 1
             else:
-                right = mid
-        return left
-            
-            
+                left = mid + 1
+        return len(intervals) if ans == -1 else ans
+    
     def insert(self, intervals: List[List[int]], newInterval: List[int]) -> List[List[int]]:
-        # intervals.append(newInterval)
-        # intervals.sort()
-        insertPos = self.insert_pos(intervals, newInterval)
-        intervals = intervals[:insertPos] + [newInterval] + intervals[insertPos:]
+        pos = self.insertPos(newInterval, intervals)
+        
+        intervals = intervals[:pos] + [newInterval] + intervals[pos:]
+        
         stack = []
         for start, end in intervals:
-            if stack and (stack[-1][0]<=start<=stack[-1][1] or stack[-1][0]<=end<=stack[-1][1]):
-                new_interval = stack.pop()
-                stack.append([min(new_interval[0], start), max(new_interval[1], end)])
+            if stack and stack[-1][1] >= start:
+                temp = stack.pop()
+                stack.append([temp[0], max(temp[1], end)])
             else:
                 stack.append([start, end])
         return stack
-        
