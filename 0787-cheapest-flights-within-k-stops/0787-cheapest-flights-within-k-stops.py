@@ -1,42 +1,21 @@
 class Solution:
     def findCheapestPrice(self, n: int, flights: List[List[int]], src: int, dst: int, k: int) -> int:
-#         graph = defaultdict(list)
-#         for start, end, price in flights:
-#             graph[start].append((end, price))
-            
-#         heap = [(-1, src, 0)]
-#         temp = [inf]*n
-#         while heap:
-#             print(heap)
-#             stops, city, price = heapq.heappop(heap)
-#             if city == dst:
-#                 return price
-#             if stops == k:
-#                 continue
-#             for neighbor, cost in graph[city]:
-#                 if price + cost < temp[neighbor]:
-#                     temp[neighbor] = price + cost
-#                     heapq.heappush(heap, (stops + 1, neighbor, temp[neighbor]))
-#         return -1
         graph = defaultdict(list)
-        for start, end, price in flights:
-            graph[start].append((end, price))
-        q = collections.deque([(-1, src, 0)])
-        ans = inf
+        for x, y, price in flights:
+            graph[x].append((y, price))
         
-        costs = [inf]*n
+        pq = [(0, -1, src)]
+        s = [inf]*n
         
-        while q:
-            stops, city, cost = q.popleft()
+        while pq:
+            price, stops, city = heappop(pq)
+            
+            if stops > k or stops >= s[city]:
+                continue
             if city == dst:
-                ans = min(ans, cost)
-                continue
-            if stops == k:
-                continue
-
-            for neighbor, price in graph[city]:
-                if price + cost < costs[neighbor]:
-                    costs[neighbor] = price + cost
-                    q.append((stops + 1, neighbor, cost+price))
-                
-        return -1 if ans == inf else ans
+                return price
+            
+            s[city] = stops
+            for neighbor, cost in graph[city]:
+                heappush(pq, (price + cost, stops + 1, neighbor))
+        return -1
